@@ -56,6 +56,9 @@ clarity-cli initialize "$init_file" "$data_dir"
 # Can we define an empty trait? Yes.
 launch empty-trait
 
+# Can we re-define a trait with the same type and same name in a different contract? Yes.
+launch empty-trait-copy
+
 # Can we define traits that use traits in not-yet-deployed contracts? No.
 launch no-trait-fail
 
@@ -119,6 +122,12 @@ launch downcast-trait-2-fail
 launch downcast-trait-3-fail
 launch downcast-trait-4-fail
 launch downcast-trait-5-fail
+
+# Can we cast a trait to a different trait with a different signature? No.
+launch trait-cast-fail
+
+# Can we cast a trait to a different trait with the same signature? No.
+launch identical-trait-cast-fail
 
 # Trait Call Tests
 # ================
