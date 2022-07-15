@@ -48,10 +48,28 @@ execute() {
 echo "$init" > "$init_file"
 clarity-cli initialize "$init_file" "$data_dir"
 
+# Trait Typing Tests
+# ==================
+#
+# These tests demonstrate which traits the Clarity type checker will accept.
+
+# Can we define an empty trait? Yes.
+launch empty-trait
+
+# Can we define traits that use traits in not-yet-deployed contracts? No.
+launch no-trait-fail
+
+# Can we define traits in a contract that are circular? No.
+launch circular-trait-1-fail
+launch circular-trait-2-fail
+
+# Can we define traits that do not return a response type? No.
+launch no-response-trait-fail
+
 # Trait Initialization Tests
 # ==========================
 #
-# These tests all initialize contracts that use or implement traits.
+# These tests all initialize contracts that use or implement valid traits.
 
 # We first initialize our database with a few simple contracts
 # 0.  We define an empty contract
@@ -101,13 +119,6 @@ launch downcast-trait-2-fail
 launch downcast-trait-3-fail
 launch downcast-trait-4-fail
 launch downcast-trait-5-fail
-
-# Can we define traits that use traits in not-yet-deployed contracts? No.
-launch no-trait-fail
-
-# Can we define traits in a contract that are circular? No.
-launch circular-trait-1-fail
-launch circular-trait-2-fail
 
 # Trait Call Tests
 # ================
