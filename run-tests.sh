@@ -54,10 +54,12 @@ clarity-cli initialize "$init_file" "$data_dir"
 # These tests all initialize contracts that use or implement traits.
 
 # We first initialize our database with a few simple contracts
+# 0.  We define an empty contract
 # 1.  We define a trait math
 # 2.  We define a contract that implements trait math
 # 3.  We define a contract that implements trait math partially
 # 4.  We define a contract that uses a trait math
+launch empty
 launch math-trait
 launch impl-math-trait
 launch partial-math-trait
@@ -119,4 +121,4 @@ execute true use-math-trait add-call $(conlit impl-math-trait) u3 u5
 execute true use-math-trait add-call $(conlit partial-math-trait) u3 u5
 
 # Can we dynamically call a contract that does implement the function call via the trait? No.
-execute false use-math-trait add-call $(conlit math-trait) u3 u5
+execute false use-math-trait add-call $(conlit empty) u3 u5
