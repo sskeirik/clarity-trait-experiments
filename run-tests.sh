@@ -26,6 +26,11 @@ launch() {
 echo "$init" > "$init_file"
 clarity-cli initialize "$init_file" "$data_dir"
 
+# We first initialize our database with a few simple contracts
+# 1.  We define a trait math
+# 2.  We define a contract that implements trait math
+# 3.  We define a contract that implements trait math partially
+# 4.  We define a contract that uses a trait math
 launch math-trait
 launch impl-math-trait
 launch partial-math-trait
@@ -68,9 +73,9 @@ launch downcast-trait-3-fail
 launch downcast-trait-4-fail
 launch downcast-trait-5-fail
 
-# # Can we define traits that use traits in not-yet-deployed contracts? No.
+# Can we define traits that use traits in not-yet-deployed contracts? No.
 launch no-trait-fail
 
-# # Can we define traits in a contract that are circular? No.
+# Can we define traits in a contract that are circular? No.
 launch circular-trait-1-fail
 launch circular-trait-2-fail
