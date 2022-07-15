@@ -7,19 +7,38 @@ set -ueo pipefail
 
 DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-addr=SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6
-init='[ { "principal": "ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE", "amount": 1000 } ]'
+deploy_addr=SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6
+sender_addr=ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE
+init="[ { \"principal\": \"$sender_addr\", \"amount\": 1000 } ]"
 init_file="$DIR/initial-allocations.json"
 data_dir="$DIR/vm-state.db"
 
 launch() {
   set +e
   echo ""
-  clarity-cli launch "$addr.$1" "$DIR/contracts/$1.clar" "$data_dir"
+  clarity-cli launch "$deploy_addr.$1" "$DIR/contracts/$1.clar" "$data_dir"
   res1=$?
   [[ "$1" == *-fail ]]
   res2=$?
   [[ $res1 -ne $res2 ]] || { echo "error: test $1 failed" ; exit 1 ; }
+  set -e
+}
+
+conlit() {
+  echo "'$deploy_addr.$1"
+}
+
+execute() {
+  set +e
+  echo ""
+  pass=$1; shift
+  contract=$1; shift
+  function=$1; shift
+  clarity-cli execute "$data_dir" "$deploy_addr.$contract" "$function" "$sender_addr" "$@"
+  res1=$?
+  $pass
+  res2=$?
+  [[ $res1 -eq $res2 ]] || { echo "error: test (contract-call? $contract $function $@) failed" ; exit 1 ; }
   set -e
 }
 
@@ -92,3 +111,12 @@ launch circular-trait-2-fail
 # ================
 #
 # These tests all call contracts that use or implement traits.
+
+# Can we dynamically call a contract that fully implements a trait? Yes.
+execute true use-math-trait add-call $(conlit impl-math-trait) u3 u5
+
+# Can we dynamically call a contract that just implements one function from a trait? Yes.
+execute true use-math-trait add-call $(conlit partial-math-trait) u3 u5
+
+# Can we dynamically call a contract that does implement the function call via the trait? No.
+execute false use-math-trait add-call $(conlit math-trait) u3 u5
