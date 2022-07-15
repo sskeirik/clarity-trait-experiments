@@ -132,10 +132,13 @@ launch identical-trait-cast-fail
 # Can we pass a trait to a read-only function? Yes.
 launch readonly-use-trait
 
+# Can we pass a trait from a read-only function to a different read-only function? Yes.
+launch readonly-pass-trait
+
 # Can a readonly function call a readonly public function? Yes.
 launch readonly-call-public
 
-# Can we call a trait in a read-only function? No.
+# Can we dynamically call a trait in a read-only function? No.
 launch readonly-call-trait-fail
 
 # Can we call a readonly function in a separate contract from a readonly function? Yes.
