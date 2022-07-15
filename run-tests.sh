@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Test Runner Code
+# ================
+
 set -ueo pipefail
 
 DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -25,6 +28,11 @@ launch() {
 
 echo "$init" > "$init_file"
 clarity-cli initialize "$init_file" "$data_dir"
+
+# Trait Initialization Tests
+# ==========================
+#
+# These tests all initialize contracts that use or implement traits.
 
 # We first initialize our database with a few simple contracts
 # 1.  We define a trait math
@@ -79,3 +87,8 @@ launch no-trait-fail
 # Can we define traits in a contract that are circular? No.
 launch circular-trait-1-fail
 launch circular-trait-2-fail
+
+# Trait Call Tests
+# ================
+#
+# These tests all call contracts that use or implement traits.
