@@ -129,6 +129,12 @@ launch trait-cast-fail
 # Can we cast a trait to a different trait with the same signature? No.
 launch identical-trait-cast-fail
 
+# Can we pass a trait to a read-only function? Yes.
+launch readonly-use-trait
+
+# Can we call a trait in a read-only function? No.
+launch readonly-call-trait-fail
+
 # Trait Call Tests
 # ================
 #
