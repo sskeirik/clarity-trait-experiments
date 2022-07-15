@@ -135,6 +135,9 @@ launch readonly-use-trait
 # Can we call a trait in a read-only function? No.
 launch readonly-call-trait-fail
 
+# Can we call a function with traits from a read-only function statically? Yes.
+launch readonly-static-call-trait
+
 # Trait Call Tests
 # ================
 #
