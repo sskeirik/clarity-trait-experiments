@@ -50,6 +50,20 @@ execute() {
 echo "$init" > "$init_file"
 clarity-cli initialize "$init_file" "$data_dir"
 
+# General Tests
+# =============
+#
+# These tests demonstrate some baseline facts about Clarity.
+
+# Can we define functions out-of-order? Yes.
+launch true out-of-order-call
+
+# Can we define circular methods? No.
+launch false circular-methods
+
+# Can we call undefined (or not-yet-defined) methods? No.
+launch false no-method
+
 # Trait Typing Tests
 # ==================
 #
