@@ -129,6 +129,9 @@ launch trait-cast-fail
 # Can we cast a trait to a different trait with the same signature? No.
 launch identical-trait-cast-fail
 
+# Can we cast a trait to a renaming of itself? Yes.
+launch renamed-trait-cast
+
 # Can we pass a trait to a read-only function? Yes.
 launch readonly-use-trait
 
