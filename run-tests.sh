@@ -62,14 +62,14 @@ launch true empty-trait
 launch true empty-trait-copy
 
 # Can we define traits that use traits in not-yet-deployed contracts? No.
-launch false no-trait-fail
+launch false no-trait
 
 # Can we define traits in a contract that are circular? No.
-launch false circular-trait-1-fail
-launch false circular-trait-2-fail
+launch false circular-trait-1
+launch false circular-trait-2
 
 # Can we define traits that do not return a response type? No.
-launch false no-response-trait-fail
+launch false no-response-trait
 
 # Trait Initialization Tests
 # ==========================
@@ -89,7 +89,7 @@ launch true partial-math-trait
 launch true use-math-trait
 
 # Can we use impl-trait on a partial trait implementation? No.
-launch false impl-math-trait-fail
+launch false impl-math-trait-incomplete
 
 # Can we pass a literal where a trait is expected with a full implementation? Yes.
 launch true trait-literal
@@ -98,38 +98,38 @@ launch true trait-literal
 launch true pass-let-rename-trait
 
 # Can we pass a literal where a trait is expected with a partial implementation? No.
-launch false trait-literal-fail
+launch false trait-literal-incomplete
 
 # Can we rename a trait with let and call it? No.
-launch false call-let-rename-trait-fail
+launch false call-let-rename-trait
 
 # Can we save trait in data-var or data-map? No.
-launch false trait-data-1-fail
-launch false trait-data-2-fail
+launch false trait-data-1
+launch false trait-data-2
 
 # Can we use a trait exp where a principal type is expected? No.
 # Principal can be expected in var/map/function
-launch false upcast-trait-1-fail
-launch false upcast-trait-2-fail
-launch false upcast-trait-3-fail
+launch false upcast-trait-1
+launch false upcast-trait-2
+launch false upcast-trait-3
 
 # Can we use a let-renamed trait where a principal type is expected?
 # That is, does let-renaming affect the type? No.
-launch false upcast-renamed-fail
+launch false upcast-renamed
 
 # Can we use a principal exp where a trait type is expected? No.
 # Principal can come from constant/var/map/function/keyword
-launch false downcast-trait-1-fail
-launch false downcast-trait-2-fail
-launch false downcast-trait-3-fail
-launch false downcast-trait-4-fail
-launch false downcast-trait-5-fail
+launch false downcast-trait-1
+launch false downcast-trait-2
+launch false downcast-trait-3
+launch false downcast-trait-4
+launch false downcast-trait-5
 
 # Can we cast a trait to a different trait with a different signature? No.
-launch false trait-cast-fail
+launch false trait-cast
 
 # Can we cast a trait to a different trait with the same signature? No.
-launch false identical-trait-cast-fail
+launch false identical-trait-cast
 
 # Can we cast a trait to a renaming of itself? Yes.
 launch true renamed-trait-cast
@@ -144,13 +144,13 @@ launch true readonly-pass-trait
 launch true readonly-call-public
 
 # Can we dynamically call a trait in a read-only function? No.
-launch false readonly-call-trait-fail
+launch false readonly-call-trait
 
 # Can we call a readonly function in a separate contract from a readonly function? Yes.
 launch true readonly-static-call
 
 # Can we call a function with traits from a read-only function statically? Yes.
-launch false readonly-static-call-trait-fail
+launch false readonly-static-call-trait
 
 # Trait Call Tests
 # ================
