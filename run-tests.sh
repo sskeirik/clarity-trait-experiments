@@ -16,11 +16,13 @@ data_dir="$DIR/vm-state.db"
 launch() {
   set +e
   echo ""
-  clarity-cli launch "$deploy_addr.$1" "$DIR/contracts/$1.clar" "$data_dir"
+  pass=$1; shift
+  contract=$1; shift
+  clarity-cli launch "$deploy_addr.$contract" "$DIR/contracts/$contract.clar" "$data_dir"
   res1=$?
-  [[ "$1" == *-fail ]]
+  [[ "$pass" == true ]]
   res2=$?
-  [[ $res1 -ne $res2 ]] || { echo "error: test $1 failed" ; exit 1 ; }
+  [[ $res1 -eq $res2 ]] || { echo "error: test $contract failed" ; exit 1 ; }
   set -e
 }
 
@@ -36,7 +38,7 @@ execute() {
   function=$1; shift
   clarity-cli execute "$data_dir" "$deploy_addr.$contract" "$function" "$sender_addr" "$@"
   res1=$?
-  $pass
+  [[ "$pass" == true ]]
   res2=$?
   [[ $res1 -eq $res2 ]] || { echo "error: test (contract-call? $contract $function $@) failed" ; exit 1 ; }
   set -e
@@ -54,20 +56,20 @@ clarity-cli initialize "$init_file" "$data_dir"
 # These tests demonstrate which traits the Clarity type checker will accept.
 
 # Can we define an empty trait? Yes.
-launch empty-trait
+launch true empty-trait
 
 # Can we re-define a trait with the same type and same name in a different contract? Yes.
-launch empty-trait-copy
+launch true empty-trait-copy
 
 # Can we define traits that use traits in not-yet-deployed contracts? No.
-launch no-trait-fail
+launch false no-trait-fail
 
 # Can we define traits in a contract that are circular? No.
-launch circular-trait-1-fail
-launch circular-trait-2-fail
+launch false circular-trait-1-fail
+launch false circular-trait-2-fail
 
 # Can we define traits that do not return a response type? No.
-launch no-response-trait-fail
+launch false no-response-trait-fail
 
 # Trait Initialization Tests
 # ==========================
@@ -80,75 +82,75 @@ launch no-response-trait-fail
 # 2.  We define a contract that implements trait math
 # 3.  We define a contract that implements trait math partially
 # 4.  We define a contract that uses a trait math
-launch empty
-launch math-trait
-launch impl-math-trait
-launch partial-math-trait
-launch use-math-trait
+launch true empty
+launch true math-trait
+launch true impl-math-trait
+launch true partial-math-trait
+launch true use-math-trait
 
 # Can we use impl-trait on a partial trait implementation? No.
-launch impl-math-trait-fail
+launch false impl-math-trait-fail
 
 # Can we pass a literal where a trait is expected with a full implementation? Yes.
-launch trait-literal
+launch true trait-literal
 
 # Can we rename a trait with let and pass it to a function? Yes.
-launch pass-let-rename-trait
+launch true pass-let-rename-trait
 
 # Can we pass a literal where a trait is expected with a partial implementation? No.
-launch trait-literal-fail
+launch false trait-literal-fail
 
 # Can we rename a trait with let and call it? No.
-launch call-let-rename-trait-fail
+launch false call-let-rename-trait-fail
 
 # Can we save trait in data-var or data-map? No.
-launch trait-data-1-fail
-launch trait-data-2-fail
+launch false trait-data-1-fail
+launch false trait-data-2-fail
 
 # Can we use a trait exp where a principal type is expected? No.
 # Principal can be expected in var/map/function
-launch upcast-trait-1-fail
-launch upcast-trait-2-fail
-launch upcast-trait-3-fail
+launch false upcast-trait-1-fail
+launch false upcast-trait-2-fail
+launch false upcast-trait-3-fail
 
 # Can we use a let-renamed trait where a principal type is expected?
 # That is, does let-renaming affect the type? No.
-launch upcast-renamed-fail
+launch false upcast-renamed-fail
 
 # Can we use a principal exp where a trait type is expected? No.
 # Principal can come from constant/var/map/function/keyword
-launch downcast-trait-1-fail
-launch downcast-trait-2-fail
-launch downcast-trait-3-fail
-launch downcast-trait-4-fail
-launch downcast-trait-5-fail
+launch false downcast-trait-1-fail
+launch false downcast-trait-2-fail
+launch false downcast-trait-3-fail
+launch false downcast-trait-4-fail
+launch false downcast-trait-5-fail
 
 # Can we cast a trait to a different trait with a different signature? No.
-launch trait-cast-fail
+launch false trait-cast-fail
 
 # Can we cast a trait to a different trait with the same signature? No.
-launch identical-trait-cast-fail
+launch false identical-trait-cast-fail
 
 # Can we cast a trait to a renaming of itself? Yes.
-launch renamed-trait-cast
+launch true renamed-trait-cast
 
 # Can we pass a trait to a read-only function? Yes.
-launch readonly-use-trait
+launch true readonly-use-trait
 
 # Can we pass a trait from a read-only function to a different read-only function? Yes.
-launch readonly-pass-trait
+launch true readonly-pass-trait
 
 # Can a readonly function call a readonly public function? Yes.
-launch readonly-call-public
+launch true readonly-call-public
 
 # Can we dynamically call a trait in a read-only function? No.
-launch readonly-call-trait-fail
+launch false readonly-call-trait-fail
 
 # Can we call a readonly function in a separate contract from a readonly function? Yes.
-launch readonly-static-call
+launch true readonly-static-call
 
 # Can we call a function with traits from a read-only function statically? Yes.
-launch readonly-static-call-trait-fail
+launch false readonly-static-call-trait-fail
 
 # Trait Call Tests
 # ================
