@@ -101,6 +101,7 @@ launch true math-trait
 launch true impl-math-trait
 launch true partial-math-trait
 launch true use-math-trait
+launch true use-principal
 
 # Can we use impl-trait on a partial trait implementation? No.
 launch false impl-math-trait-incomplete
@@ -179,3 +180,6 @@ execute true use-math-trait add-call $(conlit partial-math-trait) u3 u5
 
 # Can we dynamically call a contract that does implement the function call via the trait? No.
 execute false use-math-trait add-call $(conlit empty) u3 u5
+
+# Can we call a contract with takes a principal with a contract identifier that is not bound to a deployed contract? Yes.
+execute true use-principal use $(conlit made-up)
