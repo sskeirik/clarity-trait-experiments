@@ -85,6 +85,9 @@ launch false circular-trait-2
 # Can we define traits that do not return a response type?
 launch false no-response-trait
 
+# Can we define traits that occur in a contract out-of-order?
+launch true out-of-order-traits
+
 # Trait Initialization Tests
 # ==========================
 #
