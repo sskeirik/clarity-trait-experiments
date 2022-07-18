@@ -50,6 +50,24 @@ execute() {
 echo "$init" > "$init_file"
 clarity-cli initialize "$init_file" "$data_dir"
 
+# Test Setup
+# ==========
+#
+# We launch some simple contracts that we will use later.
+# 0.  We define an empty contract
+# 1.  We define a trait math
+# 2.  We define a contract that implements trait math
+# 3.  We define a contract that implements trait math partially
+# 4.  We define a contract that uses a trait math
+# 5.  We define a contract that uses a principal argument
+
+launch true empty
+launch true math-trait
+launch true impl-math-trait
+launch true partial-math-trait
+launch true use-math-trait
+launch true use-principal
+
 # General Tests
 # =============
 #
@@ -63,6 +81,9 @@ launch false circular-methods
 
 # Can we call undefined (or not-yet-defined) methods?
 launch false no-method
+
+# Can a readonly function call a readonly public function?
+launch true readonly-call-public
 
 # Trait Typing Tests
 # ==================
@@ -92,19 +113,6 @@ launch true out-of-order-traits
 # ==========================
 #
 # These tests all initialize contracts that use or implement valid traits.
-
-# We first initialize our database with a few simple contracts
-# 0.  We define an empty contract
-# 1.  We define a trait math
-# 2.  We define a contract that implements trait math
-# 3.  We define a contract that implements trait math partially
-# 4.  We define a contract that uses a trait math
-launch true empty
-launch true math-trait
-launch true impl-math-trait
-launch true partial-math-trait
-launch true use-math-trait
-launch true use-principal
 
 # Can we use impl-trait on a partial trait implementation?
 launch false impl-math-trait-incomplete
@@ -158,9 +166,6 @@ launch true readonly-use-trait
 # Can we pass a trait from a read-only function to a different read-only function?
 launch true readonly-pass-trait
 
-# Can a readonly function call a readonly public function?
-launch true readonly-call-public
-
 # Can we dynamically call a trait in a read-only function?
 launch false readonly-call-trait
 
@@ -186,3 +191,13 @@ execute false use-math-trait add-call $(conlit empty) u3 u5
 
 # Can we call a contract with takes a principal with a contract identifier that is not bound to a deployed contract?
 execute true use-principal use $(conlit made-up)
+
+# Trait Recursion Example
+# =======================
+#
+# This example shows how traits can induce the runtime to make a recursive (but terminating) call which is caught by the recursion checker at runtime.
+
+launch  true  simple-trait
+launch  true  impl-simple-trait
+launch  true  impl-simple-trait-2
+execute false simple-trait call-simple $(conlit impl-simple-trait-2)

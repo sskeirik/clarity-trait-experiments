@@ -29,14 +29,26 @@ The file `run-tests.sh` contains all of the trait experiments with commentary ab
 The test file is structured as sequence of test sections.
 We list each section below with a description.
 
-1.  **Trait Typing Tests**
+1.  **Test Setup**
+
+    This section initializes some simple contracts that we will use later.
+
+2.  **General Tests**
+
+    This section contains some simple tests for sanity checking purposes.
+
+3.  **Trait Typing Tests**
 
     These tests demonstrate which traits the Clarity type checker will accept.
 
-1.  **Trait Initialization Tests**
+4.  **Trait Initialization Tests**
 
     These tests all initialize contracts that use or implement valid traits.
 
-2.  **Trait Call Tests**
+5.  **Trait Call Tests**
 
     These tests all call contracts that use or implement traits.
+
+6.  **Trait Recursion Example**
+
+    This example shows how traits can induce the runtime to make a recursive (but terminating) call which is caught by the recursion checker at runtime.
