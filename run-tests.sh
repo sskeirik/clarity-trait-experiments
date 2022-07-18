@@ -55,13 +55,13 @@ clarity-cli initialize "$init_file" "$data_dir"
 #
 # These tests demonstrate some baseline facts about Clarity.
 
-# Can we define functions out-of-order? Yes.
+# Can we define functions out-of-order?
 launch true out-of-order-call
 
-# Can we define circular methods? No.
+# Can we define circular methods?
 launch false circular-methods
 
-# Can we call undefined (or not-yet-defined) methods? No.
+# Can we call undefined (or not-yet-defined) methods?
 launch false no-method
 
 # Trait Typing Tests
@@ -69,20 +69,20 @@ launch false no-method
 #
 # These tests demonstrate which traits the Clarity type checker will accept.
 
-# Can we define an empty trait? Yes.
+# Can we define an empty trait?
 launch true empty-trait
 
-# Can we re-define a trait with the same type and same name in a different contract? Yes.
+# Can we re-define a trait with the same type and same name in a different contract?
 launch true empty-trait-copy
 
-# Can we define traits that use traits in not-yet-deployed contracts? No.
+# Can we define traits that use traits in not-yet-deployed contracts?
 launch false no-trait
 
-# Can we define traits in a contract that are circular? No.
+# Can we define traits in a contract that are circular?
 launch false circular-trait-1
 launch false circular-trait-2
 
-# Can we define traits that do not return a response type? No.
+# Can we define traits that do not return a response type?
 launch false no-response-trait
 
 # Trait Initialization Tests
@@ -103,36 +103,36 @@ launch true partial-math-trait
 launch true use-math-trait
 launch true use-principal
 
-# Can we use impl-trait on a partial trait implementation? No.
+# Can we use impl-trait on a partial trait implementation?
 launch false impl-math-trait-incomplete
 
-# Can we pass a literal where a trait is expected with a full implementation? Yes.
+# Can we pass a literal where a trait is expected with a full implementation?
 launch true trait-literal
 
-# Can we rename a trait with let and pass it to a function? Yes.
+# Can we rename a trait with let and pass it to a function?
 launch true pass-let-rename-trait
 
-# Can we pass a literal where a trait is expected with a partial implementation? No.
+# Can we pass a literal where a trait is expected with a partial implementation?
 launch false trait-literal-incomplete
 
-# Can we rename a trait with let and call it? No.
+# Can we rename a trait with let and call it?
 launch false call-let-rename-trait
 
-# Can we save trait in data-var or data-map? No.
+# Can we save trait in data-var or data-map?
 launch false trait-data-1
 launch false trait-data-2
 
-# Can we use a trait exp where a principal type is expected? No.
+# Can we use a trait exp where a principal type is expected?
 # Principal can be expected in var/map/function
 launch false upcast-trait-1
 launch false upcast-trait-2
 launch false upcast-trait-3
 
 # Can we use a let-renamed trait where a principal type is expected?
-# That is, does let-renaming affect the type? No.
+# That is, does let-renaming affect the type?
 launch false upcast-renamed
 
-# Can we use a principal exp where a trait type is expected? No.
+# Can we use a principal exp where a trait type is expected?
 # Principal can come from constant/var/map/function/keyword
 launch false downcast-trait-1
 launch false downcast-trait-2
@@ -140,31 +140,31 @@ launch false downcast-trait-3
 launch false downcast-trait-4
 launch false downcast-trait-5
 
-# Can we cast a trait to a different trait with a different signature? No.
+# Can we cast a trait to a different trait with a different signature?
 launch false trait-cast
 
-# Can we cast a trait to a different trait with the same signature? No.
+# Can we cast a trait to a different trait with the same signature?
 launch false identical-trait-cast
 
-# Can we cast a trait to a renaming of itself? Yes.
+# Can we cast a trait to a renaming of itself?
 launch true renamed-trait-cast
 
-# Can we pass a trait to a read-only function? Yes.
+# Can we pass a trait to a read-only function?
 launch true readonly-use-trait
 
-# Can we pass a trait from a read-only function to a different read-only function? Yes.
+# Can we pass a trait from a read-only function to a different read-only function?
 launch true readonly-pass-trait
 
-# Can a readonly function call a readonly public function? Yes.
+# Can a readonly function call a readonly public function?
 launch true readonly-call-public
 
-# Can we dynamically call a trait in a read-only function? No.
+# Can we dynamically call a trait in a read-only function?
 launch false readonly-call-trait
 
-# Can we call a readonly function in a separate contract from a readonly function? Yes.
+# Can we call a readonly function in a separate contract from a readonly function?
 launch true readonly-static-call
 
-# Can we call a function with traits from a read-only function statically? Yes.
+# Can we call a function with traits from a read-only function statically?
 launch false readonly-static-call-trait
 
 # Trait Call Tests
@@ -172,14 +172,14 @@ launch false readonly-static-call-trait
 #
 # These tests all call contracts that use or implement traits.
 
-# Can we dynamically call a contract that fully implements a trait? Yes.
+# Can we dynamically call a contract that fully implements a trait?
 execute true use-math-trait add-call $(conlit impl-math-trait) u3 u5
 
-# Can we dynamically call a contract that just implements one function from a trait? Yes.
+# Can we dynamically call a contract that just implements one function from a trait?
 execute true use-math-trait add-call $(conlit partial-math-trait) u3 u5
 
-# Can we dynamically call a contract that does implement the function call via the trait? No.
+# Can we dynamically call a contract that does implement the function call via the trait?
 execute false use-math-trait add-call $(conlit empty) u3 u5
 
-# Can we call a contract with takes a principal with a contract identifier that is not bound to a deployed contract? Yes.
+# Can we call a contract with takes a principal with a contract identifier that is not bound to a deployed contract?
 execute true use-principal use $(conlit made-up)
