@@ -139,6 +139,9 @@ launch false upcast-trait-1
 launch false upcast-trait-2
 launch false upcast-trait-3
 
+# Can we return a trait from a function and use it?
+launch true  return-trait
+
 # Can we use a let-renamed trait where a principal type is expected?
 # That is, does let-renaming affect the type?
 launch false upcast-renamed
@@ -191,6 +194,9 @@ execute false use-math-trait add-call $(conlit empty) u3 u5
 
 # Can we call a contract with takes a principal with a contract identifier that is not bound to a deployed contract?
 execute true use-principal use $(conlit made-up)
+
+# Can we call a contract where a function returns a trait?
+execute true return-trait add-call-indirect $(conlit impl-math-trait) u3 u5
 
 # Trait Recursion Example
 # =======================
