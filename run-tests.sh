@@ -132,6 +132,9 @@ launch true identical-double-trait
 # Can we implement a trait with two methods with the same name and the same type?
 launch true impl-identical-double-trait
 
+# Can we implement a trait that returns itself?
+launch false selfret-trait
+
 # Trait Initialization Tests
 # ==========================
 #
