@@ -113,7 +113,18 @@ launch true out-of-order-traits
 launch true double-method-trait
 
 # Can we implement a trait with two methods with the same name and different types?
-launch false impl-double-method-trait
+launch false impl-double-method-trait-both # both   methods
+launch false impl-double-method-trait-1    # first  method
+launch true  impl-double-method-trait-2    # second method
+
+# Can we partially implement a trait with two methods with the same name and different types?
+launch true partial-double-method-trait-1 # first  method type
+launch true partial-double-method-trait-2 # second method type
+
+# Can we use a trait that has two methods with the same name and different types?
+launch false use-double-method-trait           # use full impl    - both   method types
+launch false use-partial-double-method-trait-1 # use partial impl - first  method type
+launch true  use-partial-double-method-trait-2 # use partial impl - second method type
 
 # Can we define a trait with two methods with the same name and the same type?
 launch true identical-double-method-trait
@@ -209,6 +220,12 @@ execute true use-principal use $(conlit made-up)
 
 # Can we call a contract where a function returns a trait?
 execute true return-trait add-call-indirect $(conlit impl-math-trait) u3 u5
+
+# Can we call a contract with a fully implemented double method trait?
+execute true use-partial-double-method-trait-2 call-double $(conlit impl-double-method-trait-2)
+
+# Can we call a contract with a partially implemented double method trait?
+execute true use-partial-double-method-trait-2 call-double $(conlit partial-double-method-trait-2)
 
 # Trait Recursion Example
 # =======================
