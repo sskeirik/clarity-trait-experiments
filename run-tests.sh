@@ -140,6 +140,22 @@ launch false selfret-trait
 launch false use-math-trait-transitive-alias
 launch true  use-math-trait-transitive-name
 
+# we launch a simple trait for testing with one method: do-it
+launch true  a-trait
+
+# Can we reference original trait and define trait with the same name in one contract?
+launch false use-original-and-define-a-trait
+
+# Can we reference redefined trait and define trait with the same name in one contract?
+# Will this redefined trait also overwrite the trait alias?
+launch true use-redefined-and-define-a-trait
+
+# Can we use the original trait from a contract that redefines it?
+launch false use-a-trait-transitive-original
+
+# Can we use the redefined trait from a contract that redefines it?
+launch true use-a-trait-transitive-redefined
+
 # Trait Initialization Tests
 # ==========================
 #
