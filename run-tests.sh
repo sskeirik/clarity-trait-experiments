@@ -109,6 +109,12 @@ launch false no-response-trait
 # Can we define traits that occur in a contract out-of-order?
 launch true out-of-order-traits
 
+# Can we define a trait with two methods with the same name and different types?
+launch true double-method-trait
+
+# Can we define a trait with two methods with the same name and the same type?
+launch true identical-double-method-trait
+
 # Trait Initialization Tests
 # ==========================
 #
