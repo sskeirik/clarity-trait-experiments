@@ -112,8 +112,14 @@ launch true out-of-order-traits
 # Can we define a trait with two methods with the same name and different types?
 launch true double-method-trait
 
+# Can we implement a trait with two methods with the same name and different types?
+launch false impl-double-method-trait
+
 # Can we define a trait with two methods with the same name and the same type?
 launch true identical-double-method-trait
+
+# Can we implement a trait with two methods with the same name and the same type?
+launch true impl-identical-double-method-trait
 
 # Trait Initialization Tests
 # ==========================
