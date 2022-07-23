@@ -135,6 +135,11 @@ launch true impl-identical-double-trait
 # Can we implement a trait that returns itself?
 launch false selfret-trait
 
+# Can we import a trait from a contract that uses but does not define the trait?
+# Does the transitive import use the trait alias or the trait name?
+launch false use-math-trait-transitive-alias
+launch true  use-math-trait-transitive-name
+
 # Trait Initialization Tests
 # ==========================
 #
