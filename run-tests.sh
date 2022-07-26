@@ -156,6 +156,20 @@ launch false use-a-trait-transitive-original
 # Can we use the redefined trait from a contract that redefines it?
 launch true use-a-trait-transitive-redefined
 
+# Can we nest traits in other types inside a function parameter type?
+launch true nested-trait-1
+launch true nested-trait-2
+launch true nested-trait-3
+launch true nested-trait-4
+
+# Can we call functions with nested trait types by passing a trait parameter?
+# Can we call functions with nested trait types where a trait parameter is _not_ passed? E.g. a response.
+execute false nested-trait-1 foo "(list 'SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6.empty 'SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6.math-trait)"
+execute false nested-trait-2 foo "(some 'SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6.empty)"
+execute false nested-trait-3 foo "(ok   'SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6.empty)"
+execute true  nested-trait-3 foo "(err false)"
+execute false nested-trait-4 foo "(tuple (empty 'SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6.empty))"
+
 # Trait Initialization Tests
 # ==========================
 #
