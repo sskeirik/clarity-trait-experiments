@@ -1,6 +1,10 @@
 Clarity Traits and Recursion
 ============================
 
+**NOTE:** I found a counter-example which invalidated this proof attempt. I'm
+leaving this text up in case anyone (most likely me) wants to refer to this
+later.
+
 Abstract
 --------
 
