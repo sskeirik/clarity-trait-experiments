@@ -5,6 +5,11 @@
 
 set -ueo pipefail
 
+export TIMEFORMAT=">>> %R"
+
+TIME=false
+[ $# -eq 1 ] && [  $1 == 'time' ] && TIME=true
+
 DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 deploy_addr=SP8CW062DS1XAZJJXWKSM9EMMDD51BRVFMY8MBX6
@@ -13,16 +18,25 @@ init="[ { \"principal\": \"$sender_addr\", \"amount\": 1000 } ]"
 init_file="$DIR/initial-allocations.json"
 data_dir="$DIR/vm-state.db"
 
+timeit() {
+  if $TIME; then
+    time "$@"
+  else
+    "$@"
+  fi
+}
+
 launch() {
   set +e
   echo ""
   pass=$1; shift
   contract=$1; shift
-  clarity-cli launch "$deploy_addr.$contract" "$DIR/contracts/$contract.clar" "$data_dir"
+  timeit clarity-cli launch "$deploy_addr.$contract" "$DIR/contracts/$contract.clar" "$data_dir"
   res1=$?
   [[ "$pass" == true ]]
   res2=$?
   [[ $res1 -eq $res2 ]] || { echo "error: test $contract failed" ; exit 1 ; }
+  $TIME && echo ">>> $contract" 
   set -e
 }
 
@@ -36,11 +50,12 @@ execute() {
   pass=$1; shift
   contract=$1; shift
   function=$1; shift
-  clarity-cli execute "$data_dir" "$deploy_addr.$contract" "$function" "$sender_addr" "$@"
+  timeit clarity-cli execute "$data_dir" "$deploy_addr.$contract" "$function" "$sender_addr" "$@"
   res1=$?
   [[ "$pass" == true ]]
   res2=$?
   [[ $res1 -eq $res2 ]] || { echo "error: test (contract-call? $contract $function $@) failed" ; exit 1 ; }
+  $TIME && echo ">>> ($contract $function $@)"
   set -e
 }
 
