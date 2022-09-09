@@ -60,3 +60,62 @@ We list each section below with a description.
 6.  **Trait Recursion Example**
 
     This example shows how traits can induce the runtime to make a recursive (but terminating) call which is caught by the recursion checker at runtime.
+
+## Adding New Tests
+
+To add new tests, several steps need to be performed:
+
+1.  (optional) Add a new clarity source file to the contracts folder; it should have a `.clar` extension.
+2.  Append your test case onto the end of the `run-tests.sh` file.
+
+Each test case has one of the following forms:
+
+-   Tests which initialize a contract have the form:
+
+    ```
+    launch <true|false> <contract-name-without-extension>
+    ```
+
+    where the boolean argument indicates whether the contract _should_ initialize successfully.
+
+    Here is an example from the current test suite:
+
+    ```sh
+    launch true empty
+    ```
+
+    This indicates that, the empty contract should initialize successfully.
+
+-   Tests which call contracts have the form:
+
+    ```
+    execute <true|false> <contract-name-without-extension> <function-name> <function-arguments>
+    ```
+
+    where the boolean argument indicates whether the contract call _should_ complete successfully.
+
+    Here is an example from the current test suite:
+
+    ```sh
+    execute true nested-trait-3 foo "(err false)"
+    ```
+
+    This says that when calling the contract `nested-trait-3` at function `foo` with the argument `(err false)`, the contract call will succeed.
+
+**NOTE:** Due to the current test harness structure, it is _not_ possible to initialize a contract file twice, i.e., the following pattern _cannot_ appear in the `run-tests.sh` file:
+
+```
+launch true contract-name
+...
+...
+launch true contract-name
+```
+
+To get around this, you can copy the existing contract into a fresh file and then initialize that contract, e.g.,
+
+```
+launch true contract-name
+...
+...
+launch true contract-name-copy
+```
