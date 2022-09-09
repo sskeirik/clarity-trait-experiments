@@ -66,7 +66,17 @@ We list each section below with a description.
 To add new tests, several steps need to be performed:
 
 1.  (optional) Add a new clarity source file to the contracts folder; it should have a `.clar` extension.
-2.  Append your test case onto the end of the `run-tests.sh` file.
+2.  Add your test case into the `run-tests.sh` file somewhere _after_ the line which contains the command:
+
+    ```sh
+    clarity-cli initialize "$init_file" "$data_dir"
+    ```
+
+    See the section [Test Case Format](#test-case-format) below for details.
+
+**NOTE:** Depending on where you add your test case, the result may be different, e.g., if the test case interacts with other contracts in some way.
+
+## Test Case Format
 
 Each test case has one of the following forms:
 
