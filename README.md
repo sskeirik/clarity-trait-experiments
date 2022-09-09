@@ -112,6 +112,8 @@ Each test case has one of the following forms:
 
     This says that when calling the contract `nested-trait-3` at function `foo` with the argument `(err false)`, the contract call will succeed.
 
+    **NOTE:** An `execute true contract-name ...` test will always fail if it occurs before a corresponding `launch true contract-name`.
+
 **NOTE:** Due to the current test harness structure, it is _not_ possible to initialize a contract file twice, i.e., the following pattern _cannot_ appear in the `run-tests.sh` file:
 
 ```
