@@ -8,7 +8,7 @@ set -ueo pipefail
 export TIMEFORMAT=">>> %R"
 
 TIME=false
-[ $# -eq 1 ] && [  $1 == 'time' ] && TIME=true
+[ $# -eq 1 ] && [ "$1" == 'time' ] && TIME=true
 
 DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -36,7 +36,7 @@ launch() {
   [[ "$pass" == true ]]
   res2=$?
   [[ $res1 -eq $res2 ]] || { echo "error: test $contract failed" ; exit 1 ; }
-  $TIME && echo ">>> $contract" 
+  $TIME && echo -e ">>> $pass\\t$contract" 
   set -e
 }
 
@@ -55,7 +55,7 @@ execute() {
   [[ "$pass" == true ]]
   res2=$?
   [[ $res1 -eq $res2 ]] || { echo "error: test (contract-call? $contract $function $@) failed" ; exit 1 ; }
-  $TIME && echo ">>> ($contract $function $@)"
+  $TIME && echo -e ">>> $pass\\t($contract $function $@"
   set -e
 }
 
