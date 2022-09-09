@@ -22,6 +22,14 @@ Then to run the tests, you should do:
 bash run-tests.sh
 ```
 
+To run and time the tests, you can do:
+
+```bash
+bash time-tests.sh
+```
+
+All tests are listed with times given upto millisecond precision.
+
 ## Description
 
 The file `run-tests.sh` contains all of the trait experiments with commentary about what is being tested.
