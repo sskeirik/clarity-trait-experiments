@@ -14,6 +14,12 @@ To run the experiments, you need to install the prerequisites first.
 
 2.  Add `clarity-cli` to your `PATH`
 
+**NOTE:** These tests were generated with clarity version:
+
+https://github.com/stacks-network/stacks-blockchain/tree/08c163bab484954b3934515ee7bf60848f52ed4a
+
+They may break on more modern clarity versions.
+
 ## Usage
 
 Then to run the tests, you should do:
